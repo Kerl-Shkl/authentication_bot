@@ -42,8 +42,11 @@ class Controller:
     async def handleRequest(self, req: Request):
         from frontend import askRequest
 
-        self.requests[req.id] = req
-        await askRequest(req)
+        if not self.edit_mode:
+            req.fut.set_result(False)
+        else:
+            self.requests[req.id] = req
+            await askRequest(req)
 
 
 controller = Controller()
