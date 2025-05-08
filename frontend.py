@@ -24,6 +24,8 @@ my_router.message.filter(F.from_user.id == USER_ID)
 another_router = Router()
 another_router.message.filter(F.from_user.id != USER_ID)
 
+dp = Dispatcher()
+
 BTN_TEXT_ENABLE = "Enable edit mode"
 BTN_TEXT_DISABLE = "Disable edit mode"
 
@@ -124,6 +126,5 @@ async def defaultStrangerHandler(message: atypes.Message):
 
 
 async def run() -> None:
-    dp = Dispatcher()
     dp.include_routers(my_router, another_router)
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, handle_signals=False)
